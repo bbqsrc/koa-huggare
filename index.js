@@ -18,7 +18,7 @@ module.exports = function(opts) {
   return function *logger(next) {
     // request
     var start = new Date;
-    Log.i(tagReq, this.method + " " + this.originalUrl);
+    Log.i(tagReq, this.method + " " + this.originalUrl + " " + this.ip);
 
     try {
       yield next;
@@ -83,7 +83,8 @@ function log(tag, ctx, start, len, err, event) {
             ctx.originalUrl + " " +
             status + " " +
             time(start) + " " +
-            length;
+            length + " " +
+            this.ip;
   logFunc.call(this, tag, msg);
 }
 
