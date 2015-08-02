@@ -80,7 +80,7 @@ function log(tag, ctx, start, len, err, event) {
     : Log.i
 
   var msg = ctx.method + " " +
-            ctx.originalPath + " " +
+            ctx.originalUrl + " " +
             status + " " +
             time(start) + " " +
             length;
