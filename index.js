@@ -84,7 +84,7 @@ function log(tag, ctx, start, len, err, event) {
             status + " " +
             time(start) + " " +
             length + " " +
-            this.ip;
+            ctx.ip;
   logFunc.call(this, tag, msg);
 }
 
