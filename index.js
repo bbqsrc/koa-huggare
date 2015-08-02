@@ -15,7 +15,14 @@ module.exports = function(opts) {
   var tagReq = tag + '/req';
   var tagRes = tag + '/res';
 
+  var exclude = opts.exclude;
+
   return function *logger(next) {
+    // If exclude, skip!
+    if (exclude && exclude.test(this.originalUrl)) {
+      return yield next;
+    }
+
     // request
     var start = new Date;
     Log.i(tagReq, this.method + " " + this.originalUrl + " " + this.ip);
