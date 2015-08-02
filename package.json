@@ -8,6 +8,7 @@
   },
   "author": "Brendan Molloy <brendan@bbqsrc.net>",
   "license": "MIT",
+  "repository": "bbqsrc/koa-huggare",
   "dependencies": {
     "huggare": "^0.1.0",
     "bytes": "1",
