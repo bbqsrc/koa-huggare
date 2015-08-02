@@ -65,10 +65,6 @@ function log(tag, ctx, start, len, err, event) {
     ? (err.status || 500)
     : (ctx.status || 404);
 
-  // set the color of the status code;
-  var s = status / 100 | 0;
-  var color = colorCodes[s];
-
   // get the human readable response length
   var length;
   if (~[204, 205, 304].indexOf(status)) {
