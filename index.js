@@ -89,6 +89,7 @@ function log(tag, ctx, start, len, err, event) {
             time(start) + " " +
             length;
   logFunc.call(this, tag, msg);
+}
 
 function time(start) {
   var delta = new Date - start;
