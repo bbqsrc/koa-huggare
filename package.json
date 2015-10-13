@@ -1,6 +1,6 @@
 {
   "name": "koa-huggare",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Huggare logging bindings for Koa",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,11 @@
   "author": "Brendan Molloy <brendan@bbqsrc.net>",
   "license": "MIT",
   "repository": "bbqsrc/koa-huggare",
+  "peerDependencies": {
+    "huggare": "^0.4.0",
+    "huggare-log": "^0.1.0"
+  },
   "dependencies": {
-    "huggare": "^0.3.2",
     "bytes": "1",
     "humanize-number": "~0.0.1",
     "passthrough-counter": "^1.0.0"

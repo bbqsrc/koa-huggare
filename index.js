@@ -6,7 +6,7 @@ var Counter = require('passthrough-counter');
 var humanize = require('humanize-number');
 var bytes = require('bytes');
 
-var Log = require('huggare');
+var Log = require('huggare-log');
 
 module.exports = function(opts) {
   opts = opts || {};
@@ -14,6 +14,7 @@ module.exports = function(opts) {
   var tag = opts.tag || "koa";
   var tagReq = tag + '/req';
   var tagRes = tag + '/res';
+  var logger = opts.logger || Log;
 
   var exclude = opts.exclude;
 
@@ -25,7 +26,7 @@ module.exports = function(opts) {
 
     // request
     var start = new Date;
-    Log.i(tagReq, this.method + " " + this.originalUrl + " " + this.ip);
+    logger.i(tagReq, this.method + " " + this.originalUrl + " " + this.ip);
 
     try {
       yield next;
@@ -64,35 +65,35 @@ module.exports = function(opts) {
       log(tagRes, ctx, start, counter ? counter.length : length, null, event);
     }
   };
-}
 
-function log(tag, ctx, start, len, err, event) {
-  // get the status code of the response
-  var status = err
-    ? (err.status || 500)
-    : (ctx.status || 404);
+  function log(tag, ctx, start, len, err, event) {
+    // get the status code of the response
+    var status = err
+      ? (err.status || 500)
+      : (ctx.status || 404);
 
-  // get the human readable response length
-  var length;
-  if (~[204, 205, 304].indexOf(status)) {
-    length = '';
-  } else if (null == len) {
-    length = '-';
-  } else {
-    length = bytes(len);
+    // get the human readable response length
+    var length;
+    if (~[204, 205, 304].indexOf(status)) {
+      length = '';
+    } else if (null == len) {
+      length = '-';
+    } else {
+      length = bytes(len);
+    }
+
+    var logFunc = err ? logger.e
+      : event === 'close' ? logger.w
+      : logger.i
+
+    var msg = ctx.method + " " +
+              ctx.originalUrl + " " +
+              status + " " +
+              time(start) + " " +
+              length + " " +
+              ctx.ip;
+    logFunc.call(this, tag, msg);
   }
-
-  var logFunc = err ? Log.e
-    : event === 'close' ? Log.w
-    : Log.i
-
-  var msg = ctx.method + " " +
-            ctx.originalUrl + " " +
-            status + " " +
-            time(start) + " " +
-            length + " " +
-            ctx.ip;
-  logFunc.call(this, tag, msg);
 }
 
 function time(start) {
