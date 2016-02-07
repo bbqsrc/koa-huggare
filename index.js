@@ -18,7 +18,7 @@ module.exports = function(opts) {
 
   var exclude = opts.exclude;
 
-  return function *logger(next) {
+  return function *getLogger(next) {
     // If exclude, skip!
     if (exclude && exclude.test(this.originalUrl)) {
       return yield next;
